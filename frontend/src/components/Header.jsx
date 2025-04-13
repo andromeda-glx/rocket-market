@@ -14,7 +14,7 @@ export default function Header() {
                 <div className="flex items-center font-semibold text-2xl gap-x-2 text-blue-600">
                     <Link to={"/"}>
                         <h2 className="uppercase">
-                            Product Store
+                            Rocket Market
                         </h2>
                     </Link>
                     <FontAwesomeIcon icon={faRocket} />
