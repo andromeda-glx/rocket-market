@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { updateProduct } from "../services/products";
 import useProductModal from "../store/product-modal";
 import { createPortal } from "react-dom";
+import { useRef } from "react";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 
 export default function EditProductModal() {
     const { register, handleSubmit, reset } = useForm();
@@ -13,6 +15,8 @@ export default function EditProductModal() {
     const setModalOpen = useProductModal(state => state.setModalOpen);
     const product = useProductModal(state => state.product);
     const setProduct = useProductModal(state => state.setProduct);
+
+    const modalRef = useRef(null);
 
     const queryClient = useQueryClient();
     const productUpdate = useMutation({
@@ -24,15 +28,22 @@ export default function EditProductModal() {
         }
     })
 
+    function handleClose() {
+        setModalOpen(false);
+    }
+
     function onSubmit(data) {
         productUpdate.mutate(data);
     }
+
+    useOnClickOutside(modalRef, handleClose);
 
     return (
         createPortal(
             isOpen &&
             <div className="bg-black/40 fixed flex justify-center inset-0 z-5">
                 <div
+                    ref={modalRef}
                     className="bg-gray-700 mt-20 h-fit text-white p-7 relative rounded-lg w-[80%] md:w-[50%] max-w-[600px]"
                 >
                     <FontAwesomeIcon
