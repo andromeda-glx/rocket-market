@@ -14,7 +14,7 @@ export default function Product({ productDetails }) {
     const setProduct = useProductModal(state => state.setProduct);
     const setModalOpen = useProductModal(state => state.setModalOpen);
 
-    const { id, name, price, img } = productDetails;
+    const { _id: id, name, price, img } = productDetails;
 
     const queryClient = useQueryClient();
     const deleteProductMutation = useMutation({
