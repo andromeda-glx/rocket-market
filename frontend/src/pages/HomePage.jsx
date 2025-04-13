@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import { getProducts } from '../services/products';
-import Product from '../components/Product';
-import ErrorBlock from '../components/ErrorBlock';
-import Spinner from '../components/Spinner';
+import Product from '../components/products/Product';
+import ErrorBlock from '../components/common/ErrorBlock';
+import Spinner from '../components/common/Spinner';
 
 export default function HomePage() {
     const productsQuery = useQuery({

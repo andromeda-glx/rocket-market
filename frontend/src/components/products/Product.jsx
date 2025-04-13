@@ -1,12 +1,12 @@
 import React from 'react'
-import { formatPrice } from '../utils/format-price';
+import { formatPrice } from '../../utils/format-price.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import useTheme from '../store/theme-mode';
+import useTheme from '../../store/theme-mode.js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteProduct } from '../services/products.js';
-import useProductModal from '../store/product-modal.js';
+import { deleteProduct } from '../../services/products.js';
+import useProductModal from '../../store/product-modal.js';
 
 export default function Product({ productDetails }) {
     const { lightMode } = useTheme((state) => state);
