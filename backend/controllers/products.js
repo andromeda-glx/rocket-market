@@ -1,8 +1,5 @@
-import { mongo } from "mongoose";
-import { products as dbProducts } from "../database/products.js";
+import { mongoose } from "mongoose";
 import Product from "../models/product.model.js";
-
-let products = [...dbProducts];
 
 export const getProducts = async (req, res) => {
   try {
