@@ -3,9 +3,16 @@ import Product from "../models/product.model.js";
 
 let products = [...dbProducts];
 
-export const getProducts = (req, res) => {
-  res.status(200).json({ success: true, data: products });
-  res.end();
+export const getProducts = async (req, res) => {
+  //   res.status(200).json({ success: true, data: products });
+  //   res.end();
+  try {
+    const products = await Product.find(); // Fetch all products from the database
+    res.status(200).json({ success: true, data: products });
+  } catch (error) {
+    console.error(`Error in getProducts: ${error.message}`);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
 };
 
 export const postProduct = async (req, res) => {
@@ -28,7 +35,7 @@ export const postProduct = async (req, res) => {
     await product.save(); // saves the product to the database
     res.status(201).json({ success: true, data: product });
   } catch (error) {
-    console.log(`Error in postProduct: ${error.message}`);
+    console.error(`Error in postProduct: ${error.message}`);
     res.status(500).json({ success: false, message: "Server error." });
   }
 
