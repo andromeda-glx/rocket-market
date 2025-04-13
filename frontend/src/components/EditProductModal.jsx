@@ -20,7 +20,7 @@ export default function EditProductModal() {
 
     const queryClient = useQueryClient();
     const productUpdate = useMutation({
-        mutationFn: (data) => updateProduct(product.id, data),
+        mutationFn: (data) => updateProduct(product._id, data),
         onSuccess: () => {
             reset();
             setModalOpen(false);
