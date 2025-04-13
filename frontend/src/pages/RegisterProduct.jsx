@@ -3,10 +3,11 @@ import useTheme from '../store/theme-mode'
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createProduct } from '../services/products';
+import ErrorBlock from '../components/common/ErrorBlock';
 
 export default function RegisterProduct() {
     const { lightMode } = useTheme((state) => state);
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const queryClient = useQueryClient();
     const newProduct = useMutation({
@@ -33,7 +34,7 @@ export default function RegisterProduct() {
                         type="text"
                         placeholder='Product Name'
                         className='input-style'
-                        {...register("name", { required: true })}
+                        {...register("name", { required: "Product name is required." })}
                     />
                 </div>
                 <div>
@@ -42,7 +43,7 @@ export default function RegisterProduct() {
                         placeholder='Price'
                         step={0.01}
                         className='input-style'
-                        {...register("price", { required: true })}
+                        {...register("price", { required: "Price is required" })}
                     />
                 </div>
                 <div>
@@ -50,13 +51,16 @@ export default function RegisterProduct() {
                         type="url"
                         placeholder='Image URL'
                         className='input-style'
-                        {...register("img", { required: true })}
+                        {...register("img", { required: "An image URL is required" })}
                     />
                 </div>
                 <button type='submit' className='bg-blue-500 rounded-lg py-2 font-semibold cursor-pointer text-white'>
                     Add Product
                 </button>
             </form>
+            {errors.name && <ErrorBlock error={{ title: "Register failed", message: errors.name.message }} />}
+            {errors.price && <ErrorBlock error={{ title: "Register failed", message: errors.price.message }} />}
+            {errors.img && <ErrorBlock error={{ title: "Register failed", message: errors.img.message }} />}
         </>
     )
 }
