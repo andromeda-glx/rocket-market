@@ -1,3 +1,4 @@
+import { mongo } from "mongoose";
 import { products as dbProducts } from "../database/products.js";
 import Product from "../models/product.model.js";
 
@@ -45,10 +46,11 @@ export const postProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const { productId } = req.params;
 
-  if (!productId) {
+  // This code will check if the productId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
     return res
       .status(400)
-      .json({ success: false, message: "No product ID provided." });
+      .json({ success: false, message: "Invalid product ID." });
   }
 
   try {
