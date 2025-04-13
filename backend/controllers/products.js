@@ -4,8 +4,6 @@ import Product from "../models/product.model.js";
 let products = [...dbProducts];
 
 export const getProducts = async (req, res) => {
-  //   res.status(200).json({ success: true, data: products });
-  //   res.end();
   try {
     const products = await Product.find(); // Fetch all products from the database
     res.status(200).json({ success: true, data: products });
@@ -13,6 +11,8 @@ export const getProducts = async (req, res) => {
     console.error(`Error in getProducts: ${error.message}`);
     res.status(500).json({ success: false, message: "Server error." });
   }
+
+  res.end();
 };
 
 export const postProduct = async (req, res) => {
@@ -42,18 +42,27 @@ export const postProduct = async (req, res) => {
   res.end();
 };
 
-export const deleteProduct = (req, res) => {
+export const deleteProduct = async (req, res) => {
   const { productId } = req.params;
-  let filteredList = products.filter((product) => product.id !== productId);
 
-  if (filteredList.length !== products.length) {
-    products = [...filteredList];
-    res
-      .status(200)
-      .json({ success: true, message: "Product was deleted successfully." });
-  } else {
-    res.status(404).json({ success: false, message: "Product not found." });
+  if (!productId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No product ID provided." });
   }
+
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(productId); // Delete the product from the database
+    if (!deletedProduct) {
+      res.status(404).json({ success: false, message: "Product not found." });
+    } else {
+      res.status(200).json({ success: true, data: deletedProduct });
+    }
+  } catch (error) {
+    console.error(`Error in deleteProduct: ${error.message}`);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+
   res.end();
 };
 
