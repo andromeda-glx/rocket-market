@@ -10,10 +10,12 @@ export const getProducts = (req, res) => {
 
 export const postProduct = async (req, res) => {
   const data = req.body;
-  //   data.id = crypto.randomUUID();
-  //   products.push(data);
-  //   res.status(200).json({ success: true, data });
-  //   res.end();
+  if (!data) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No data provided." });
+  }
+
   if (!data.name || !data.price || !data.img) {
     return res
       .status(400)
