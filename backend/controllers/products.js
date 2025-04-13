@@ -71,7 +71,7 @@ export const updateProduct = async (req, res) => {
   const data = req.body;
 
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(productId, data); // Update the product in the database. if productId is not found, it will return null.
+    const updatedProduct = await Product.findByIdAndUpdate(productId, data, {new: true}); // Update the product in the database and return the updated product. If the product is not found, it returns null.
     if (!updatedProduct) {
       res.status(404).json({ success: false, message: "Product not found." });
     } else {
