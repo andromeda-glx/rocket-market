@@ -7,8 +7,6 @@ import { Link } from "react-router";
 export default function Header() {
     const lightMode = useTheme(state => state.lightMode);
     const switchMode = useTheme(state => state.actions.switchMode);
-    console.log(lightMode);
-    
 
     return (
         <header className={`${lightMode ? "bg-gray-100" : "bg-gray-900"} transition-colors`}>

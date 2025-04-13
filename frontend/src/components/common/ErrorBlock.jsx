@@ -1,8 +1,6 @@
 import React from 'react'
 
 export default function ErrorBlock({ error }) {
-    console.log(error);
-    
     return (
         <div className='w-[500px] mx-auto mt-10'>
             <h2 className='w-[100%] bg-red-800 px-2 py-2 rounded-t-md text-lg font-bold text-white'>

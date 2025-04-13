@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import { getProducts } from '../services/products';
-import Product from '../components/products/Product';
 import ErrorBlock from '../components/common/ErrorBlock';
 import Spinner from '../components/common/Spinner';
+import ProductList from '../components/products/ProductList';
 
 export default function HomePage() {
     const productsQuery = useQuery({
@@ -25,15 +25,7 @@ export default function HomePage() {
                     productsQuery.isError ?
                         <ErrorBlock error={productsQuery.error} /> : productsQuery.isFetching ?
                             <Spinner /> :
-                            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
-                                {
-                                    products.map(product => (
-                                        <li key={product.id}>
-                                            <Product productDetails={product} />
-                                        </li>
-                                    ))
-                                }
-                            </ul>
+                            <ProductList products={products} />
                 }
             </section>
         </>
