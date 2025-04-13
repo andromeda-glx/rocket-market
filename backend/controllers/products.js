@@ -70,8 +70,23 @@ export const updateProduct = async (req, res) => {
   const { productId } = req.params;
   const data = req.body;
 
+  // this code will check if the productId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid product ID." });
+  }
+
+  if (!data) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No data provided." });
+  }
+
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(productId, data, {new: true}); // Update the product in the database and return the updated product. If the product is not found, it returns null.
+    const updatedProduct = await Product.findByIdAndUpdate(productId, data, {
+      new: true,
+    }); // Update the product in the database and return the updated product. If the product is not found, it returns null.
     if (!updatedProduct) {
       res.status(404).json({ success: false, message: "Product not found." });
     } else {
