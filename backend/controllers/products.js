@@ -66,18 +66,20 @@ export const deleteProduct = async (req, res) => {
   res.end();
 };
 
-export const updateProduct = (req, res) => {
+export const updateProduct = async (req, res) => {
   const { productId } = req.params;
-  const { name, price, img } = req.body;
-  if (products.find((product) => product.id === productId)) {
-    products = products.map((product) =>
-      product.id === productId ? { id: productId, name, price, img } : product
-    );
-    res
-      .status(200)
-      .json({ success: true, data: { id: productId, name, price, img } });
-  } else {
-    res.status(404).json({ success: false, message: "Product not found." });
+  const data = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(productId, data); // Update the product in the database. if productId is not found, it will return null.
+    if (!updatedProduct) {
+      res.status(404).json({ success: false, message: "Product not found." });
+    } else {
+      res.status(200).json({ success: true, data: updatedProduct });
+    }
+  } catch (error) {
+    console.error(`Error in updateProduct: ${error.message}`);
+    res.status(500).json({ success: false, message: "Server error." });
   }
   res.end();
 };
